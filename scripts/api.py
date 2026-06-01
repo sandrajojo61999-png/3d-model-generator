@@ -105,10 +105,31 @@ def find_shape(prompt: str) -> str:
     code = response.choices[0].message.content.strip()
     code = re.sub(r'```[a-zA-Z]*', '', code)
     code = code.replace('```', '').strip()
-    for keyword in ['union','difference','cube','cylinder','sphere','translate']:
+    # Clean markdown
+    code = re.sub(r"```[a-zA-Z]*", "", code).replace("```", "").strip()
+    
+    # Remove variable assignments
+    lines = code.split("\n")
+    clean_lines = []
+    for line in lines:
+        stripped = line.strip()
+        # Skip variable assignments and comments
+        if "=" in stripped and not stripped.startswith("translate") and not stripped.startswith("rotate") and not stripped.startswith("scale"):
+            continue
+        if stripped.startswith("//"):
+            continue
+        clean_lines.append(line)
+    code = "\n".join(clean_lines).strip()
+    
+    # Find start of valid OpenSCAD
+    for keyword in ["union", "difference", "intersection", "cube", "cylinder", "sphere", "translate"]:
         if keyword in code:
             code = code[code.find(keyword):]
             break
+    
+    # If code still invalid, use simple fallback
+    if not any(k in code for k in ["cube", "sphere", "cylinder", "union"]):
+        code = "union() {\n  sphere(r=10);\n  translate([0,0,10]) cube([5,5,5], center=true);\n}"
     return code
 
 def render(scad_code, scad_path, png_path, stl_path):
@@ -162,10 +183,31 @@ MODIFIED CODE:"""
     code = response.choices[0].message.content.strip()
     code = re.sub(r'```[a-zA-Z]*', '', code)
     code = code.replace('```', '').strip()
-    for keyword in ['union','difference','cube','cylinder','sphere','translate']:
+    # Clean markdown
+    code = re.sub(r"```[a-zA-Z]*", "", code).replace("```", "").strip()
+    
+    # Remove variable assignments
+    lines = code.split("\n")
+    clean_lines = []
+    for line in lines:
+        stripped = line.strip()
+        # Skip variable assignments and comments
+        if "=" in stripped and not stripped.startswith("translate") and not stripped.startswith("rotate") and not stripped.startswith("scale"):
+            continue
+        if stripped.startswith("//"):
+            continue
+        clean_lines.append(line)
+    code = "\n".join(clean_lines).strip()
+    
+    # Find start of valid OpenSCAD
+    for keyword in ["union", "difference", "intersection", "cube", "cylinder", "sphere", "translate"]:
         if keyword in code:
             code = code[code.find(keyword):]
             break
+    
+    # If code still invalid, use simple fallback
+    if not any(k in code for k in ["cube", "sphere", "cylinder", "union"]):
+        code = "union() {\n  sphere(r=10);\n  translate([0,0,10]) cube([5,5,5], center=true);\n}"
 
     # fallback — previous_scad use ചെയ്യൂ
     if not code.strip():
