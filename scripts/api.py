@@ -120,9 +120,9 @@ def render(scad_code, scad_path, png_path, stl_path):
 @app.post("/generate")
 async def generate(request: PromptRequest):
     name = datetime.now().strftime("%Y%m%d_%H%M%S")
-    scad_path = f"/home/sandra/3d_model_generator/models/{name}.scad"
-    png_path = f"/home/sandra/3d_model_generator/outputs/{name}.png"
-    stl_path = f"/home/sandra/3d_model_generator/outputs/{name}.stl"
+    scad_path = f"/app/models/{name}.scad"
+    png_path = f"/app/outputs/{name}.png"
+    stl_path = f"/app/outputs/{name}.stl"
     scad_code = find_shape(request.prompt)
     render(scad_code, scad_path, png_path, stl_path)
     if not os.path.exists(png_path):
@@ -134,9 +134,9 @@ async def generate(request: PromptRequest):
 @app.post("/refine")
 async def refine(request: RefineRequest):
     name = datetime.now().strftime("%Y%m%d_%H%M%S")
-    scad_path = f"/home/sandra/3d_model_generator/models/{name}.scad"
-    png_path = f"/home/sandra/3d_model_generator/outputs/{name}.png"
-    stl_path = f"/home/sandra/3d_model_generator/outputs/{name}.stl"
+    scad_path = f"/app/models/{name}.scad"
+    png_path = f"/app/outputs/{name}.png"
+    stl_path = f"/app/outputs/{name}.stl"
 
     system_prompt = f"""You are an OpenSCAD code modifier.
 CURRENT CODE:
@@ -183,7 +183,7 @@ MODIFIED CODE:"""
 
 @app.get("/export/{filename}")
 async def export(filename: str):
-    stl_path = f"/home/sandra/3d_model_generator/outputs/{filename}.stl"
+    stl_path = f"/app/outputs/{filename}.stl"
     if os.path.exists(stl_path):
         return {"stl_path": stl_path, "status": "success"}
     return {"error": "File not found"}
