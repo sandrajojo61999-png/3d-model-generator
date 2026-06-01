@@ -6,4 +6,4 @@ COPY requirements.txt .
 RUN pip3 install -r requirements.txt
 COPY scripts/ scripts/
 RUN mkdir -p models outputs
-CMD uvicorn scripts.api:app --host 0.0.0.0 --port ${PORT:-8000}
+CMD uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
