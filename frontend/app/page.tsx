@@ -158,11 +158,18 @@ export default function Home() {
                 <pre className="bg-gray-800 rounded-xl p-4 text-sm overflow-auto max-h-48 text-green-400">{code}</pre>
               </div>
             )}
+            {image && (
+              <a href={`${API}/download/stl`} download="model.stl"
+                className="block text-center w-full bg-green-600 hover:bg-green-700 rounded-xl py-3 font-semibold transition mt-3">
+                ⬇️ Download STL
+              </a>
+            )}
           </div>
           <div className="bg-gray-900 rounded-2xl p-6 flex flex-col items-center justify-center min-h-64">
             <h2 className="text-xl font-semibold mb-4">🧊 3D Preview</h2>
             {loading && <div className="text-center"><p className="text-4xl mb-4 animate-pulse">⚙️</p><p className="text-gray-400">{status}</p></div>}
             {image && !loading && <img src={image} alt="3D" className="rounded-xl w-full"/>}
+    
             {!image && !loading && (
               <div className="text-gray-500 text-center">
                 <p className="text-6xl mb-4">🧊</p>
