@@ -4,6 +4,5 @@ RUN apt-get update && apt-get install -y python3 python3-pip openscad && rm -rf 
 WORKDIR /app
 COPY requirements.txt .
 RUN pip3 install -r requirements.txt
-COPY scripts/ scripts/
+COPY . .
 RUN mkdir -p models outputs
-CMD uvicorn scripts.api:app --host 0.0.0.0 --port $PORT
