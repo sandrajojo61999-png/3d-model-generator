@@ -99,10 +99,15 @@ export default function Home() {
           {!image && !loading && <div className="text-gray-500 text-center"><p className="text-6xl mb-4">🧊</p><p>Upload an image to generate 3D!</p></div>}
         </div>
       </div>
-      <div className="bg-gray-900 rounded-2xl p-6">
-        <h2 className="text-xl font-semibold mb-4 text-center">Stable Fast 3D — High Quality Image to 3D</h2>
-        <iframe src="https://stabilityai-stable-fast-3d.hf.space" width="100%" height="900" className="rounded-xl border-0"></iframe>
+      <div className="bg-gray-900 rounded-2xl p-6 text-center">
+        <h2 className="text-xl font-semibold mb-4">✨ Stable Fast 3D — High Quality Mesh</h2>
+        <p className="text-gray-400 text-sm mb-6">For photorealistic 3D mesh generation, use Stable Fast 3D</p>
+        <a href="https://huggingface.co/spaces/stabilityai/stable-fast-3d" target="_blank"
+          className="bg-pink-600 hover:bg-pink-700 px-8 py-4 rounded-xl font-semibold text-lg inline-block">
+          🚀 Open Stable Fast 3D
+        </a>
       </div>
+    
     </div>
   );
 
